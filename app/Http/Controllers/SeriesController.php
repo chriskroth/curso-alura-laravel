@@ -17,11 +17,10 @@ class SeriesController extends Controller {
     }
 
     public function store(Request $request) {
-        $nome = $request->input("nome");
 
-        $serie = new Serie();
-        $serie->nome = $nome;
-        $serie->save();
+        Serie::create($request->all());
+//        Serie::create($request->only(['nome']));
+//        Serie::create($request->except(['_token']));
 
         return redirect("/series");
     }

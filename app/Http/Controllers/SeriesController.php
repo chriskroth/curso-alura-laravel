@@ -22,6 +22,7 @@ class SeriesController extends Controller {
 //        Serie::create($request->only(['nome']));
 //        Serie::create($request->except(['_token']));
 
-        return redirect("/series");
+//        return redirect("/series");
+        return redirect()->route("series.index");
     }
 }

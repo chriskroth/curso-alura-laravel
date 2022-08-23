@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class SeriesController extends Controller {
         return view('series.create');
     }
 
-    public function store(Request $request) {
+    public function store(SeriesFormRequest $request) {
         $serie = Serie::create($request->all());
         //Serie::create($request->only(['nome']));
         //Serie::create($request->except(['_token']));
@@ -44,7 +45,7 @@ class SeriesController extends Controller {
         return view("series.edit", compact("serie"));
     }
 
-    public function update(Request $request, $id) {
+    public function update(SeriesFormRequest $request, $id) {
         $serie = Serie::find($id);
 
 //        $serie->nome = $request->input("nome");

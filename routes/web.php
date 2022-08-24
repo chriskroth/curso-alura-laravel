@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\SeriesController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,8 @@ Route::controller(SeriesController::class)->group(function () {
     Route::put("/series/{id}", 'update')->name("series.update");
     Route::delete("/series/destroy/{id}", 'destroy')->name("series.destroy");
 });
+
+Route::get('/series/{series}/seasons', [SeasonController::class, 'index'])->name('seasons.index');
 
 //Route::resource("/series", SeriesController::class); //- Possível utilizar quando as nomenclaturas seguem o padrão do Laravel
 

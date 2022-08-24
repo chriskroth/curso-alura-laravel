@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class SeriesController extends Controller {
     public function index() {
-        $series = Serie::query()->orderBy("nome")->get();
+//        $series = Serie::query()->orderBy("nome")->get();
+        $series = Serie::all();
         $mensagemSucesso = session("mensagem.sucesso");
 
         return view("series.index", compact('series', 'mensagemSucesso'));

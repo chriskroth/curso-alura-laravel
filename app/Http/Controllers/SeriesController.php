@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
+use App\Models\Episode;
+use App\Models\Season;
 use App\Models\Series;
 use Illuminate\Http\Request;
 
 class SeriesController extends Controller {
     public function index() {
-//        $series = Serie::query()->orderBy("nome")->get();
+        //$series = Serie::query()->orderBy("nome")->get();
         $series = Series::all();
         $mensagemSucesso = session("mensagem.sucesso");
 
@@ -25,6 +27,41 @@ class SeriesController extends Controller {
         //Serie::create($request->except(['_token']));
 
         //return redirect("/series");
+
+        //- Inserir temporadas e episódios
+        /*
+        for ($i = 1; $i <= $request->numberSeasons; $i++) {
+            $season = $serie->seasons()->create([
+                'number' => $i
+            ]);
+
+            for ($j = 1; $j <= $request->episodesPerSeason; $j++) {
+                $season->episodes()->create([
+                    'number' => $j
+                ]);
+            }
+        }
+
+        //- OU inserir com o código abaixo é menos custoso (executa menos SQLs) */
+        $seasons = [];
+        for ($i = 1; $i <= $request->numberSeasons; $i++) {
+            $seasons[] = [
+                'series_id' => $serie->id,
+                'number' => $i
+            ];
+        }
+        Season::insert($seasons);
+
+        $episodes = [];
+        foreach ($serie->seasons as $season) {
+            for ($i = 1; $i <= $request->episodesPerSeason; $i++) {
+                $episodes[] = [
+                    "season_id" => $season->id,
+                    "number" => $i
+                ];
+            }
+        }
+        Episode::insert($episodes);
 
         return redirect()->route("series.index")
             ->with("mensagem.sucesso", "Série '{$serie->nome}' incluída com sucesso!");
@@ -49,7 +86,7 @@ class SeriesController extends Controller {
     public function update(SeriesFormRequest $request, $id) {
         $serie = Series::find($id);
 
-//        $serie->nome = $request->input("nome");
+        //$serie->nome = $request->input("nome");
         $serie->fill($request->all());
         $serie->save();
 

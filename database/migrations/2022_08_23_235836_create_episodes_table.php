@@ -13,8 +13,8 @@ class CreateEpisodesTable extends Migration {
     public function up() {
         Schema::create('episodes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('season_id')->constrained();
-            $table->unsignedTinyInteger('numero');
+            $table->foreignId('season_id')->constrained()->onDelete('cascade');
+            $table->unsignedTinyInteger('number');
             $table->timestamps();
         });
     }

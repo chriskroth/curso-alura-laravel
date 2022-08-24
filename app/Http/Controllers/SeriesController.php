@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Serie;
+use App\Models\Series;
 use Illuminate\Http\Request;
 
 class SeriesController extends Controller {
     public function index() {
 //        $series = Serie::query()->orderBy("nome")->get();
-        $series = Serie::all();
+        $series = Series::all();
         $mensagemSucesso = session("mensagem.sucesso");
 
         return view("series.index", compact('series', 'mensagemSucesso'));
@@ -20,7 +20,7 @@ class SeriesController extends Controller {
     }
 
     public function store(SeriesFormRequest $request) {
-        $serie = Serie::create($request->all());
+        $serie = Series::create($request->all());
         //Serie::create($request->only(['nome']));
         //Serie::create($request->except(['_token']));
 
@@ -33,7 +33,7 @@ class SeriesController extends Controller {
     public function destroy(Request $request, int $id) {
         //Serie::destroy($request->id);
 
-        $serie = Serie::find($id);
+        $serie = Series::find($id);
         $serie->delete();
 
         return redirect()->route("series.index")
@@ -41,13 +41,13 @@ class SeriesController extends Controller {
     }
 
     public function edit(Request $request, $id) {
-        $serie = Serie::find($id);
+        $serie = Series::find($id);
 
         return view("series.edit", compact("serie"));
     }
 
     public function update(SeriesFormRequest $request, $id) {
-        $serie = Serie::find($id);
+        $serie = Series::find($id);
 
 //        $serie->nome = $request->input("nome");
         $serie->fill($request->all());
